@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "body-parser": "*",
     "express": "*",
-    "mongoose": "*",
-    "body-parser": "*"
+    "mongoose": "^4.13.0"
   }
 }

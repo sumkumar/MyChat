@@ -1,5 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
+require('./util/db_setup');
+require('./model/schemas');
 var bodyParser = require('body-parser')
 var loginUtil = require('./util/login');
 var fs = require('fs');
