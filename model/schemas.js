@@ -1,10 +1,11 @@
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
-console.log("open schema");
+mongoose.Promise = global.Promise;
 var UserSchema = new schema({
 	name: String,
 	username: String,
-	pwd: String
+	pwd: String,
+	hash: String
 });
 var UserModel = mongoose.model('UserModel', UserSchema);
 

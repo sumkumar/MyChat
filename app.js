@@ -1,9 +1,12 @@
 var express = require('express');
+/*var cookieParser = require('cookie-parser');
+var session = require('express-session');*/
 var mongoose = require('mongoose');
 require('./util/db_setup');
 require('./model/schemas');
 var bodyParser = require('body-parser')
 var loginUtil = require('./util/login');
+var sessionHandlerUtil = require('./util/sessionHandler')
 var fs = require('fs');
 var app = express();
 
@@ -20,11 +23,24 @@ app.get('/', function (req, res){
     	res.write(data);
     	return res.end();
   	});
-})
+});
+
+app.get('/chat', function (req, res){
+	return sessionHandlerUtil.verifySession();	//		Verify Session of the login user
+	res.send("Success");
+});
 
 app.post('/loginform', function (req, res){
-	loginUtil.verifyCredentials(req.body);
-	res.send("Received");
+	return loginUtil.verifyCredentials(req.body).then((verifyObj)=>{
+		console.log("returned");
+		if(verifyObj.status === true){
+		res.cookie('MyChatHash', verifyObj.hashValue, {expires: new Date(Date.now()+900000)});
+		res.redirect('/chat');
+		}
+		else
+			res.send("Invalid Credentials");
+	})
+	
 })
 
 app.post('/signupform', function (req, res){
