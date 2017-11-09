@@ -2,12 +2,15 @@ var mongoose = require('mongoose');
 var modelSchemas = require('../model/schemas');
 var userModel = modelSchemas.getUserModel();
 var hashStatusObj={status:false};
-var loginSuccess = function (user){
-
+var loginSuccess = function (){
+	userModel.find({}, 'username pwd hash', function (err, user){
+		console.log("all");
+		console.log(user);
+	});
 };
 var setUserHash = function (user, random){
 	console.log("in setUserHash");
-	var userSessionUpdateQuery = userModel.update({username: user.Username}, {$set: {hash: random}});
+	var userSessionUpdateQuery = userModel.update({username: user.username}, {$set: {hash: random}});
 	return new Promise((resolve, reject)=>{
 		console.log("in session update promise");
 		userSessionUpdateQuery.exec(function (err){
@@ -15,7 +18,7 @@ var setUserHash = function (user, random){
 			if(err)
 				console.log("error: "+err);
 			hashStatusObj.status=true;
-			hashStatusObj.hash = random;
+			hashStatusObj.hashValue = random;
 			resolve();
 		});
 	});
@@ -26,9 +29,11 @@ var verifyUserQueryFunc = function (credentials){
 		console.log("in promise");
 		verifyUserQuery.exec(function (err, user){
 			console.log("in verify query");
+			console.log(user);
 			if(err)
 				console.log("error: "+err);
 			setUserHash(user, Math.random()*1000000).then(()=>{		// 		Make sure the random number generated is not present in table before setting
+				loginSuccess();
 				resolve(user);
 			});
 		});

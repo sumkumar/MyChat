@@ -1,6 +1,6 @@
 var express = require('express');
-/*var cookieParser = require('cookie-parser');
-var session = require('express-session');*/
+var cookieParser = require('cookie-parser');
+// var session = require('express-session');
 var mongoose = require('mongoose');
 require('./util/db_setup');
 require('./model/schemas');
@@ -10,6 +10,8 @@ var sessionHandlerUtil = require('./util/sessionHandler')
 var fs = require('fs');
 var app = express();
 
+
+app.use(cookieParser());
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
@@ -26,8 +28,13 @@ app.get('/', function (req, res){
 });
 
 app.get('/chat', function (req, res){
-	return sessionHandlerUtil.verifySession();	//		Verify Session of the login user
-	res.send("Success");
+	return sessionHandlerUtil.verifySession(req.cookies.MyChatHash).then((sessionVerified)=>{
+		if(sessionVerified.status===true){
+			res.send(sessionVerified.content);
+		}
+		else
+			res.send("Error");
+	});	//		Verify Session of the login user
 });
 
 app.post('/loginform', function (req, res){
@@ -39,9 +46,9 @@ app.post('/loginform', function (req, res){
 		}
 		else
 			res.send("Invalid Credentials");
-	})
+	});
 	
-})
+});
 
 app.post('/signupform', function (req, res){
 	loginUtil.addCredentials(req.body);
