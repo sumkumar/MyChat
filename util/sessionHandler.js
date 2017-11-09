@@ -26,7 +26,7 @@ module.exports= {
 				console.log(user);
 				if(user.length==1){
 					sessionVerifiedObj.status=true;
-					sessionVerifiedObj.content= "Hi "+user.name+" !!!!!";
+					sessionVerifiedObj.content= "Hi "+user[0].name+" !!!!!";
 				}
 				console.log("returned Obj");
 				console.log(sessionVerifiedObj);
