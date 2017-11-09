@@ -8,12 +8,12 @@ var loginSuccess = function (){
 	});
 };
 var setUserHash = function (user, random){
-	console.log("in setUserHash");
+	//console.log("in setUserHash");
 	// var userSessionUpdateQuery = userModel.update({username: user.Username}, {$set: {hash: random}});
 	return new Promise((resolve, reject)=>{
-		console.log("in session update promise");
+		//console.log("in session update promise");
 		userModel.update({username: user.username}, {$set: {hash: random}}, function (err){
-			console.log("update done!");
+			//console.log("update done!");
 			if(err) {
 				console.log("update error: "+err);
 				reject();
@@ -27,16 +27,16 @@ var setUserHash = function (user, random){
 var verifyUserQueryFunc = function (credentials){
 	var verifyUserQuery = userModel.find({username: credentials.Username, pwd: credentials.Password});
 	return new Promise((resolve, reject)=>{
-		console.log("in promise");
+		//console.log("in promise");
 		verifyUserQuery.exec(function (err, user){
-			console.log("verify done!");
+			//console.log("verify done!");
 			if(err){
 				console.log("error: "+err);
 				reject();
 			}
 			console.log(user);
 			setUserHash(user[0], Math.random()*1000000).then(()=>{		// 		Make sure the random number generated is not present in table before setting
-				loginSuccess();
+				//loginSuccess();
 				resolve(user[0]);
 			});
 		});
@@ -45,7 +45,7 @@ var verifyUserQueryFunc = function (credentials){
 
 module.exports = {
 	verifyCredentials: function (credentials){
-		console.log("in verify");
+		//console.log("in verify");
 		hashStatusObj.status=false;
 		return new Promise((resolve, reject)=>{
 			verifyUserQueryFunc(credentials).then(function(user){

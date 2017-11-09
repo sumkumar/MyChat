@@ -39,7 +39,7 @@ app.get('/chat', function (req, res){
 
 app.post('/loginform', function (req, res){
 	return loginUtil.verifyCredentials(req.body).then((verifyObj)=>{
-		console.log("returned");
+		//console.log("returned");
 		if(verifyObj.status === true){
 		res.cookie('MyChatHash', verifyObj.hashValue, {expires: new Date(Date.now()+900000)});
 		res.redirect('/chat');
