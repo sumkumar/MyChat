@@ -29,13 +29,11 @@ app.get('/', function (req, res){
 });
 
 app.get('/chat', function (req, res){
-	return sessionHandlerUtil.verifySession(req.cookies.MyChatHash).then((sessionVerified)=>{
-		if(sessionVerified.status===true){
-			res.send(sessionVerified.content);
-		}
-		else
-			res.send("Error");
-	});	//		Verify Session of the login user
+	fs.readFile('front/chat.html', function(err, data) {
+    	res.writeHead(200, {'Content-Type': 'text/html'});
+    	res.write(data);
+    	return res.end();
+  	});
 });
 
 app.post('/loginform', function (req, res){
@@ -52,13 +50,32 @@ app.post('/loginform', function (req, res){
 });
 
 app.post('/signupform', function (req, res){
-	loginUtil.addCredentials(req.body);
-	res.send("Received");
+	return loginUtil.addCredentials(req.body).then((verifyObj)=>{
+		console.log("returned");
+		console.log(verifyObj);
+		if(verifyObj.status === true){
+			res.redirect('/');
+		}
+		else
+			res.send("Invalid Credentials");
+	});
 });
 
 app.get('/search/:txt', function (req, res){
 	return searchUtil.searchUsername(req.params.txt).then((resultArray)=>{
 		res.send(resultArray);
+	});
+});
+
+app.get('/getData', function (req, res){
+	// console.log("in getData");
+	sessionHandlerUtil.verifySession(req.cookies.MyChatHash).then((sessionVerified)=>{
+		if(sessionVerified.status===true){
+			res.send(sessionVerified.userData);
+			//console.log(sessionVerified);
+		}
+		else
+			res.send("Verification Error");
 	});
 });
 

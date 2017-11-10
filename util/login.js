@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var modelSchemas = require('../model/schemas');
 var userModel = modelSchemas.getUserModel();
 var hashStatusObj={status:false};
+var uniqueUsername=false;
 var loginSuccess = function (){
 	userModel.find({}, 'username pwd hash', function (err, allUsers){
 		console.log(allUsers)
@@ -13,7 +14,7 @@ var setUserHash = function (user, random){
 	return new Promise((resolve, reject)=>{
 		//console.log("in session update promise");
 		userModel.update({username: user.username}, {$set: {hash: random}}, function (err){
-			//console.log("update done!");
+			console.log("update done!");
 			if(err) {
 				console.log("update error: "+err);
 				reject();
@@ -43,6 +44,32 @@ var verifyUserQueryFunc = function (credentials){
 	});
 }
 
+var addUserQueryFunc = function (credentials){
+	hashStatusObj.status=true;
+	var addUserQuery = new userModel({name: credentials.Name, username: credentials.Username, pwd: credentials.Password});
+	addUserQuery.save(function (err){
+		if(err)
+			console.log("add query error: "+err);
+		loginSuccess();
+	});
+}
+
+var isUsernameUsed = function (username){
+	var searchUserQuery = userModel.find({username: username});
+	return new Promise((resolve, reject)=>{
+		//console.log("in promise");
+		searchUserQuery.exec(function (err, user){
+			//console.log("verify done!");
+			if(err){
+				console.log("error: "+err);
+				reject();
+			}
+			console.log(user);
+			resolve(user);
+		});
+	});
+}
+
 module.exports = {
 	verifyCredentials: function (credentials){
 		//console.log("in verify");
@@ -54,22 +81,16 @@ module.exports = {
 		});
 	},
 	addCredentials: function (credentials){
-		var newUser = new userModel({
-			name: credentials.Name,
-			username: credentials.Username,
-			pwd: credentials.Password
-		});
-		newUser.save(function (err){
-			if(err)
-			console.log("error: "+err);
-		});
-		userModel.find({username: credentials.Name}, 'username', function (err, user){
-			if(err)
-			console.log("error");
-			else{
-				console.log("success: ");
+		hashStatusObj.status=false;
+		uniqueUsername=false;
+		return new Promise((resolve, reject)=>{
+			isUsernameUsed(credentials.Username).then((user)=>{
+				console.log("user");
 				console.log(user);
-			}
-		})
+				if(user.length==0)
+					addUserQueryFunc(credentials);
+				resolve(hashStatusObj);
+			});
+		});
 	}
 }

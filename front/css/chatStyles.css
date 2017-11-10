@@ -13,3 +13,7 @@
 .right-pane{
 	background-color: orange;
 }
+
+.searchResultButton{
+	width: 80%;
+}

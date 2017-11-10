@@ -3,10 +3,12 @@
 <head>
     <!---<h1 class="display-4">
             MyChat
-        </h1>
-        <h4 class="display-10">
-            Welcome {{user.name}}
-        </h4>  -->
+        </h1>	-->
+        <div id="nameHeader">
+	        <h4 class="display-10">
+	            Welcome {{name}}
+	        </h4>
+    	</div>
 </head>
 
 <body>
@@ -21,13 +23,15 @@
                                 <div>
                                     <div class="btn-group-vertical" role="group" aria-label="Basic example">
                                         <div class="searchResult" id="searchResult">
-                                            <script id="resultsTemplate" type="text/x-handlebars-template">
+                                        	<!-- <script type="text/javascript" id="searchResult" type="text/x-handlebars-template">
+                                        	{{#each this}}
                                                 <button>
-                                                    <div class="container">
+                                                    <div class="container" user="{{username}}">
                                                         Username: {{username}} Name: {{name}}
                                                     </div>
                                                 </button>
-                                            </script>
+                                            {{/each}}
+                                        	</script> -->
                                         </div>
                                         <!-- LeftPane: 
                                                         default: Recent Chats
@@ -62,15 +66,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/chatStyles.css">
     <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.js"></script> -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-    <script type="text/javascript" src="/static/js/index.js"></script>
-    <script id="entry-template" type="text/x-handlebars-template">
-        <div class="entry">
-            <h1>{{title}}</h1>
-            <div class="body">
-                {{body}}
-            </div>
-        </div>
-    </script>
+    <script type="text/javascript" src="/static/js/chat.js"></script>
 </body>
 
 </html>
