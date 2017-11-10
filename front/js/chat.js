@@ -1,4 +1,5 @@
 var root = 'http://localhost:3000';
+var presentUsername = null;
 var resultHtmlTemplate = '{{#each this}}<button class="searchResultButton"><div class="container" user="{{username}}">Username: {{username}} Name: {{name}}</div></button>{{/each}}'
 $(document).ready(function (){
 	getDataOnLoad();
@@ -13,6 +14,7 @@ $(document).ready(function (){
 });
 var fillData = function (data){
 	fillDatainElement('nameHeader', data);
+	presentUsername = data.username;
 };
 var renderSearchResults = function (results){
 	var source = $('#searchResult');
@@ -22,6 +24,14 @@ var renderSearchResults = function (results){
 }
 var onSearch = function (searchTxt){
 	$.get(root+"/search/"+searchTxt,function (data, status){
+		var len=data.length,i,flag=-1;
+		for(i=0;i<len;i++){
+			if(data[i].username === presentUsername){
+				flag=i;
+			}
+		}
+		if(flag!=-1)
+			data.splice(flag,1);
 		renderSearchResults(data);
 	});
 }
