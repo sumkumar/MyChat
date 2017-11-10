@@ -6,6 +6,7 @@ require('./util/db_setup');
 require('./model/schemas');
 var bodyParser = require('body-parser')
 var loginUtil = require('./util/login');
+var searchUtil = require('./util/search');
 var sessionHandlerUtil = require('./util/sessionHandler')
 var fs = require('fs');
 var app = express();
@@ -53,7 +54,13 @@ app.post('/loginform', function (req, res){
 app.post('/signupform', function (req, res){
 	loginUtil.addCredentials(req.body);
 	res.send("Received");
-})
+});
+
+app.get('/search/:txt', function (req, res){
+	return searchUtil.searchUsername(req.params.txt).then((resultArray)=>{
+		res.send(resultArray);
+	});
+});
 
 app.listen(3000);
 console.log('listening on 3000');

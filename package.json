@@ -12,7 +12,9 @@
     "express": "*",
     "express-session": "^1.15.6",
     "handlebars": "^4.0.11",
+    "jquery": "^3.2.1",
     "mongoose": "^4.13.0",
+    "nodemon": "^1.12.1",
     "promise": "^8.0.1"
   }
 }

@@ -1,3 +1,15 @@
-.searchResults: {
+.searchResults {
 	width: 100%;
+}
+
+.main-container{
+	height:50%;
+}
+
+.middle-pane{
+	background-color: lightblue;
+}
+
+.right-pane{
+	background-color: orange;
 }
