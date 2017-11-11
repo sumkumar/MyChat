@@ -17,21 +17,12 @@
             <div class="row main-container">
                 <div class="col-sm">
                     <div class="left-pane">
-                        <nav class="navbar navbar-light bg-light">
+                        <nav class="navbar navbar-light searchBackground">
                             <form class="form-inline">
                                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="inputSearch">
                                 <div>
                                     <div class="btn-group-vertical" role="group" aria-label="Basic example">
                                         <div class="searchResult" id="searchResult">
-                                        	<!-- <script type="text/javascript" id="searchResult" type="text/x-handlebars-template">
-                                        	{{#each this}}
-                                                <button>
-                                                    <div class="container" user="{{username}}">
-                                                        Username: {{username}} Name: {{name}}
-                                                    </div>
-                                                </button>
-                                            {{/each}}
-                                        	</script> -->
                                         </div>
                                         <!-- LeftPane: 
                                                         default: Recent Chats
@@ -48,6 +39,15 @@
                     <div class="">
                         <div class="container">
                             Your Chat
+                            <div class="chatBox container">
+
+                            </div>
+                            <div class="messageBox">
+                            	<input type="text" name="" id="inputMessage" class="inputMessageClass">
+                            </div>
+                            <div class="sendBox">
+                            	<button id="sendMessageButton" class="sendMessageButtonClass">Send</button>
+                            </div>
                         </div>
                     </div>
                 </div>

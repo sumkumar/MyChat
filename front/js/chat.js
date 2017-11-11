@@ -1,6 +1,6 @@
 var root = 'http://localhost:3000';
 var presentUsername = null;
-var resultHtmlTemplate = '{{#each this}}<button class="searchResultButton"><div class="container" user="{{username}}">Username: {{username}} Name: {{name}}</div></button>{{/each}}'
+var resultHtmlTemplate = '{{#each this}}<button onclick="#" class="searchResultButton"><div class="container" user="{{username}}">Username: {{username}} Name: {{name}}</div></button>{{/each}}'
 $(document).ready(function (){
 	getDataOnLoad();
 	$('#inputSearch').keyup(function (){
@@ -10,8 +10,11 @@ $(document).ready(function (){
 		else
 			$('#searchResult').html("");
 	});
-
+	$('.searchResultButton').on('click', userSelectedFromSearch)
 });
+var userSelectedFromSearch = function (){
+	console.log("clicked");
+}
 var fillData = function (data){
 	fillDatainElement('nameHeader', data);
 	presentUsername = data.username;
