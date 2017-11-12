@@ -35,7 +35,7 @@ var verifyUserQueryFunc = function (credentials){
 				console.log("error: "+err);
 				reject();
 			}
-			console.log(user);
+			// console.log(user);
 			setUserHash(user[0], Math.random()*1000000).then(()=>{		// 		Make sure the random number generated is not present in table before setting
 				//loginSuccess();
 				resolve(user[0]);
@@ -50,7 +50,7 @@ var addUserQueryFunc = function (credentials){
 	addUserQuery.save(function (err){
 		if(err)
 			console.log("add query error: "+err);
-		loginSuccess();
+		// loginSuccess();
 	});
 }
 
@@ -64,7 +64,7 @@ var isUsernameUsed = function (username){
 				console.log("error: "+err);
 				reject();
 			}
-			console.log(user);
+			// console.log(user);
 			resolve(user);
 		});
 	});
@@ -85,8 +85,8 @@ module.exports = {
 		uniqueUsername=false;
 		return new Promise((resolve, reject)=>{
 			isUsernameUsed(credentials.Username).then((user)=>{
-				console.log("user");
-				console.log(user);
+				// console.log("user");
+				// console.log(user);
 				if(user.length==0)
 					addUserQueryFunc(credentials);
 				resolve(hashStatusObj);

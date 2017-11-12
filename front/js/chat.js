@@ -1,6 +1,6 @@
 var root = 'http://localhost:3000';
 var presentUsername = null;
-var resultHtmlTemplate = '{{#each this}}<button onclick="#" class="searchResultButton"><div class="container" user="{{username}}">Username: {{username}} Name: {{name}}</div></button>{{/each}}'
+var resultHtmlTemplate = '{{#each this}}<button href="#" class="searchResultButton"><div class="container searchResultUser" user="{{username}}">Username: {{username}} Name: {{name}}</div></button>{{/each}}'
 $(document).ready(function (){
 	getDataOnLoad();
 	$('#inputSearch').keyup(function (){
@@ -12,12 +12,14 @@ $(document).ready(function (){
 	});
 	$('.searchResultButton').on('click', userSelectedFromSearch)
 });
-var userSelectedFromSearch = function (){
-	console.log("clicked");
+var userSelectedFromSearch = function (elementHtml){
+	var otherUsername = $('.searchResultUser').attr('user');
+	getOtherUserData(otherUsername);
 }
 var fillData = function (data){
 	fillDatainElement('nameHeader', data);
 	presentUsername = data.username;
+	$('#inputMessage').attr("myusername", data.username);
 };
 var renderSearchResults = function (results){
 	var source = $('#searchResult');
@@ -48,4 +50,13 @@ var fillDatainElement = function (id, data){
 	let compiledTemplate = Handlebars.compile(source.html());
 	let updatedHtml = compiledTemplate(data);
 	source.html(updatedHtml);
+}
+var fillChatBox = function (userData){
+	$('#chatBoxHeader').html("Your chats with "+userData.name);
+	
+}
+var getOtherUserData = function (username){
+	$.get(root+"/getOtherUserInfo/"+username,function (data, status){
+		fillChatBox(data);
+	});
 }
