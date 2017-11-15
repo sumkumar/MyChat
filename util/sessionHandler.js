@@ -12,7 +12,7 @@ var getUser = function (hashValue){
 	userSessionUpdateQuery.select('username name');
 	return new Promise((resolve, reject)=>{
 		userSessionUpdateQuery.exec(function (err, user){
-			loginSuccess();
+			// loginSuccess();
 			if(err)
 				console.log("error: "+err);
 			resolve(user);

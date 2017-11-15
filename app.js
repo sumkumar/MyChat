@@ -1,13 +1,14 @@
 var express = require('express');
 var cookieParser = require('cookie-parser');
-// var session = require('express-session');
 var mongoose = require('mongoose');
 require('./util/db_setup');
 require('./model/schemas');
 var bodyParser = require('body-parser')
 var loginUtil = require('./util/login');
 var searchUtil = require('./util/search');
-var sessionHandlerUtil = require('./util/sessionHandler')
+var sessionHandlerUtil = require('./util/sessionHandler');
+var chatData = require('./util/chatData');
+var messageUtil = require('./util/message');
 var fs = require('fs');
 var app = express();
 
@@ -40,8 +41,8 @@ app.post('/loginform', function (req, res){
 	return loginUtil.verifyCredentials(req.body).then((verifyObj)=>{
 		//console.log("returned");
 		if(verifyObj.status === true){
-		res.cookie('MyChatHash', verifyObj.hashValue, {expires: new Date(Date.now()+9000000)});
-		res.redirect('/chat');
+			res.cookie('MyChatHash', verifyObj.hashValue, {expires: new Date(Date.now()+9000000)});
+			res.redirect('/chat');
 		}
 		else
 			res.send("Invalid Credentials");
@@ -51,8 +52,8 @@ app.post('/loginform', function (req, res){
 
 app.post('/signupform', function (req, res){
 	return loginUtil.addCredentials(req.body).then((verifyObj)=>{
-		console.log("returned");
-		console.log(verifyObj);
+		// console.log("returned");
+		// console.log(verifyObj);
 		if(verifyObj.status === true){
 			res.redirect('/');
 		}
@@ -67,6 +68,20 @@ app.get('/search/:txt', function (req, res){
 	});
 });
 
+app.get('/getOtherUserInfo/:otherUser/:limit', function (req, res){
+	sessionHandlerUtil.verifySession(req.cookies.MyChatHash).then((sessionVerified)=>{
+		if(sessionVerified.status===true){
+			chatData.getChatData(sessionVerified.userData.username, req.params.otherUser, (req.params.limit+1)*10).then((chatDataObj)=>{
+				// console.log(chatDataObj);
+				res.send(chatDataObj);
+				//console.log(sessionVerified);
+			});
+		}
+		else
+			res.send("Verification Error");
+	});
+});
+
 app.get('/getData', function (req, res){
 	// console.log("in getData");
 	sessionHandlerUtil.verifySession(req.cookies.MyChatHash).then((sessionVerified)=>{
@@ -77,6 +92,19 @@ app.get('/getData', function (req, res){
 		else
 			res.send("Verification Error");
 	});
+});
+
+app.post('/sendMessage/:otherUser', function (req, res){
+	sessionHandlerUtil.verifySession(req.cookies.MyChatHash).then((sessionVerified)=>{
+		if(sessionVerified.status===true){
+			// console.log("content");
+			// console.log(req.body.content);
+			res.send(messageUtil.sendMessage(sessionVerified.userData.username, req.params.otherUser, req.body.content));
+			//console.log(sessionVerified);
+		}
+		else
+			res.send("Verification Error");
+	});	
 });
 
 app.listen(3000);

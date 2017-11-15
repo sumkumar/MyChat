@@ -12,7 +12,7 @@ var searchUsernameFunc = function (username){
 				console.log("error: "+err);
 				reject();
 			}
-			console.log(user);
+			// console.log(user);
 			resolve(user);
 		});
 	});
