@@ -69,6 +69,25 @@
     <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.js"></script> -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
     <script type="text/javascript" src="/static/js/chat.js"></script>
+    <!-- <script type="text/javascript" src="/socket.io-p2p"></script> -->
+    <!-- <script type="text/javascript" src="/socket.io-client"></script> -->
+    <script data-main="/static/js/p2pChat.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.js"></script>
+    <!-- <script type="text/javascript">
+    	var P2P = require('socket.io-p2p');
+		var io = require('socket.io-client');
+		var socket = io();
+		var opts = { numClients: 10 }; // connect up to 10 clients at a time
+		var opts = {autoUpgrade: true, peerOpts: {numClients: 10}};
+		var p2psocket = new P2P(socket, opts);
+		p2p.on('peer-msg', function (data) {
+		  console.log('From a peer %s', data);
+		  $('#inputMessage').append(data);
+		});
+		$('#sendMessageButton').click(function (){
+			var data=$('#inputMessage').val();
+			socket.emit('chat message', data);
+		})
+    </script> -->
 </body>
 
 </html>

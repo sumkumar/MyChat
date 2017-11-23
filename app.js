@@ -10,7 +10,22 @@ var sessionHandlerUtil = require('./util/sessionHandler');
 var chatData = require('./util/chatData');
 var messageUtil = require('./util/message');
 var fs = require('fs');
+
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')();
+var p2p = require('socket.io-p2p-server').Server;
+io.use(p2p);
+
+io.on('connection', function(socket) {
+  socket.on('peer-msg', function(data) {
+    console.log('Message from peer: %s', data);
+    socket.broadcast.emit('peer-msg', data);
+  });
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
 
 
 app.use(cookieParser());
@@ -20,6 +35,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 app.use('/static', express.static(__dirname+'/front')); 
+app.use('/scripts', express.static(__dirname+'/node_modules'));
 
 app.get('/', function (req, res){
 	fs.readFile('front/index.html', function(err, data) {
