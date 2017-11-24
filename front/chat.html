@@ -1,14 +1,8 @@
 <html>
 
 <head>
-    <!---<h1 class="display-4">
-            MyChat
-        </h1>	-->
-        <div id="nameHeader">
-	        <h4 class="display-10">
-	            Welcome {{name}}
-	        </h4>
-    	</div>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/static/css/chatStyles.css">
 </head>
 
 <body>
@@ -40,13 +34,12 @@
                         <div class="container">
                             <div id="chatBoxHeader">Your Chat</div>
                             <div class="chatBox container" id="messagesBox">
-
                             </div>
                             <div class="messageBox">
-                            	<input type="text" name="" id="inputMessage" class="inputMessageClass">
+                                <input type="text" name="" id="inputMessage" class="inputMessageClass">
                             </div>
                             <div class="sendBox">
-                            	<button id="sendMessageButton" class="sendMessageButtonClass">Send</button>
+                                <button id="sendMessageButton" class="sendMessageButtonClass">Send</button>
                             </div>
                         </div>
                     </div>
@@ -64,29 +57,31 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/static/css/chatStyles.css">
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.js"></script> -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-    <script type="text/javascript" src="/static/js/chat.js"></script>
-    <!-- <script type="text/javascript" src="/socket.io-p2p"></script> -->
-    <!-- <script type="text/javascript" src="/socket.io-client"></script> -->
-    <script data-main="/static/js/p2pChat.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script data-main="/static/js/chat.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.js"></script>
+    <script id="nameHeader" type="text/x-handlebars-template">
+        <div>
+            <h4 class="display-10">
+                Welcome {{name}}
+            </h4>
+        </div>
+    </script>
     <!-- <script type="text/javascript">
-    	var P2P = require('socket.io-p2p');
-		var io = require('socket.io-client');
-		var socket = io();
-		var opts = { numClients: 10 }; // connect up to 10 clients at a time
-		var opts = {autoUpgrade: true, peerOpts: {numClients: 10}};
-		var p2psocket = new P2P(socket, opts);
-		p2p.on('peer-msg', function (data) {
-		  console.log('From a peer %s', data);
-		  $('#inputMessage').append(data);
-		});
-		$('#sendMessageButton').click(function (){
-			var data=$('#inputMessage').val();
-			socket.emit('chat message', data);
-		})
+        var P2P = require('socket.io-p2p');
+        var io = require('socket.io-client');
+        var socket = io();
+        var opts = { numClients: 10 }; // connect up to 10 clients at a time
+        var opts = {autoUpgrade: true, peerOpts: {numClients: 10}};
+        var p2psocket = new P2P(socket, opts);
+        p2p.on('peer-msg', function (data) {
+          console.log('From a peer %s', data);
+          $('#inputMessage').append(data);
+        });
+        $('#sendMessageButton').click(function (){
+            var data=$('#inputMessage').val();
+            socket.emit('chat message', data);
+        })
     </script> -->
 </body>
 
