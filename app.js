@@ -13,7 +13,7 @@ var fs = require('fs');
 
 var app = express();
 var http = require('http').Server(app);
-var io = require('socket.io')();
+var io = require('socket.io')(http);
 var p2p = require('socket.io-p2p-server').Server;
 io.use(p2p);
 
