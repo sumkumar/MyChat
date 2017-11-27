@@ -4,7 +4,8 @@
   "description": "my chat app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "browserify front/js/p2pchat.js -o front/js/bundle.js & node app"
   },
   "dependencies": {
     "body-parser": "*",

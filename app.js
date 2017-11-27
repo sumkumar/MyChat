@@ -15,16 +15,18 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var p2p = require('socket.io-p2p-server').Server;
+http.listen(3000);
 io.use(p2p);
 
 io.on('connection', function(socket) {
-  socket.on('peer-msg', function(data) {
-    console.log('Message from peer: %s', data);
-    socket.broadcast.emit('peer-msg', data);
-  });
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-  });
+	console.log("user connected");
+	socket.on('peer-msg', function(data) {
+	    console.log('Message from peer: %s', data);
+	    socket.broadcast.emit('peer-msg', data);
+	});
+	socket.on('disconnect', function(){
+		console.log('user disconnected');
+	});
 });
 
 
@@ -123,5 +125,5 @@ app.post('/sendMessage/:otherUser', function (req, res){
 	});	
 });
 
-app.listen(3000);
+//app.listen(3000);
 console.log('listening on 3000');
