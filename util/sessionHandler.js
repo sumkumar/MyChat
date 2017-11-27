@@ -1,5 +1,6 @@
 var modelSchemas = require('../model/schemas');
 var userModel = modelSchemas.getUserModel();
+var messageModel = modelSchemas.getMessageModel();
 var sessionVerifiedObj={status:false};
 var loginSuccess = function (){
 	userModel.find({}, 'username pwd hash', function (err, user){
